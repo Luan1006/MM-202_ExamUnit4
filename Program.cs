@@ -17,7 +17,7 @@ namespace Luan1006.MM202.ExamUnit4
             double dataWindSpeed = data.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("data").GetProperty("instant").GetProperty("details").GetProperty("wind_speed").GetDouble();
             DateTime dateTime = data.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("time").GetDateTime();
 
-            WeatherData weatherData = new WeatherData(false, dateTime, longitude, latitude, dataAirTemperature, dataRelativeHumidity, dataWindFromDirection, dataWindSpeed);
+            WeatherData weatherData = new WeatherData(dateTime, longitude, latitude, dataAirTemperature, dataRelativeHumidity, dataWindFromDirection, dataWindSpeed);
 
             Console.WriteLine($"Data Date: {weatherData.Date}");
             Console.WriteLine($"Data Longitude: {weatherData.Longitude}");

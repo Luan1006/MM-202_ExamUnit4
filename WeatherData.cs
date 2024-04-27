@@ -2,7 +2,6 @@ namespace Luan1006.MM202.ExamUnit4
 {
     public class WeatherData
     {
-        public bool IsRetriviedFromUser { get; set; }
         public DateTime Date { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
@@ -13,9 +12,8 @@ namespace Luan1006.MM202.ExamUnit4
 
         public WeatherData() { }
 
-        public WeatherData(bool isRetriviedFromUser, DateTime date, double longitude, double latitude, double air_temperature, double relative_humidity, double wind_from_direction, double wind_speed)
+        public WeatherData(DateTime date, double longitude, double latitude, double air_temperature, double relative_humidity, double wind_from_direction, double wind_speed)
         {
-            IsRetriviedFromUser = isRetriviedFromUser;
             Longitude = longitude;
             Latitude = latitude;
             Date = date;
