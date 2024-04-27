@@ -1,22 +1,12 @@
 [
     {
         "IsRetriviedFromUser": false,
-        "Date": "2024-04-27T17:00:00Z",
+        "Date": "2024-04-27T19:00:00Z",
         "Longitude": 8.35,
         "Latitude": 58.2,
-        "AirTemperature": 7.6,
-        "RelativeHumidity": 75.4,
-        "WindFromDirection": 74.5,
-        "WindSpeed": 4.6
-    },
-    {
-        "IsRetriviedFromUser": false,
-        "Date": "2024-04-27T17:00:00Z",
-        "Longitude": 8.35,
-        "Latitude": 58.2,
-        "AirTemperature": 7.6,
-        "RelativeHumidity": 75.4,
-        "WindFromDirection": 74.5,
-        "WindSpeed": 4.6
+        "AirTemperature": 7,
+        "RelativeHumidity": 78.9,
+        "WindFromDirection": 69.1,
+        "WindSpeed": 4.4
     }
 ]

@@ -11,9 +11,42 @@ namespace Luan1006.MM202.ExamUnit4
             LoadFromJson("weatherlog.json");
         }
 
-        public void AddData(WeatherData data)
+        public void AddData(WeatherData weatherData)
         {
-            Data.Add(data);
+            bool exists = false;
+            WeatherData existingData = null;
+
+            foreach (var wd in Data)
+            {
+                if (wd.Date.Date == weatherData.Date.Date)
+                {
+                    exists = true;
+                    existingData = wd;
+                    break;
+                }
+            }
+
+            if (!exists)
+            {
+                Data.Add(weatherData);
+            }
+            else
+            {
+                Console.WriteLine("Data for this date already exists in the log, do you want to overwrite it? (y/n)");
+                string answer = Console.ReadKey().KeyChar.ToString().ToLower();
+
+                while (answer != "y" && answer != "n")
+                {
+                    Console.WriteLine("Invalid input, please try again.");
+                    answer = Console.ReadKey().KeyChar.ToString().ToLower();
+                }
+
+                if (answer == "y")
+                {
+                    Data.Remove(existingData);
+                    Data.Add(weatherData);
+                }
+            }
         }
 
         public WeatherData GetData(DateTime date)
