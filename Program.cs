@@ -19,17 +19,17 @@ namespace Luan1006.MM202.ExamUnit4
 
             WeatherData weatherData = new WeatherData(dateTime, longitude, latitude, dataAirTemperature, dataRelativeHumidity, dataWindFromDirection, dataWindSpeed);
 
-            Console.WriteLine($"Data Date: {weatherData.Date}");
-            Console.WriteLine($"Data Longitude: {weatherData.Longitude}");
-            Console.WriteLine($"Data Latitude: {weatherData.Latitude}");
-            Console.WriteLine($"Data Air Temperature: {weatherData.AirTemperature}");
-            Console.WriteLine($"Data Relative Humidity: {weatherData.RelativeHumidity}");
-            Console.WriteLine($"Data Wind From Direction: {weatherData.WindFromDirection}");
-            Console.WriteLine($"Data Wind Speed: {weatherData.WindSpeed}");
+            Console.WriteLine($"Date: {weatherData.Date.ToShortDateString()}");
+            Console.WriteLine($"Longitude: {weatherData.Longitude}");
+            Console.WriteLine($"Latitude: {weatherData.Latitude}");
+            Console.WriteLine($"Air Temperature: {weatherData.AirTemperature}");
+            Console.WriteLine($"Relative Humidity: {weatherData.RelativeHumidity}");
+            Console.WriteLine($"Wind From Direction: {weatherData.WindFromDirection}");
+            Console.WriteLine($"Wind Speed: {weatherData.WindSpeed}");
 
             WeatherLog weatherLog = new WeatherLog();
             weatherLog.AddData(weatherData);
-            weatherLog.SaveToJson("weatherlog.json");
+            weatherLog.SaveToJson("WeatherLogFromAPI.json");
         }
     }
 }

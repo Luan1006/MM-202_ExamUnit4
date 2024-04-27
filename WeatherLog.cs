@@ -8,7 +8,7 @@ namespace Luan1006.MM202.ExamUnit4
 
         public WeatherLog()
         {
-            LoadFromJson("weatherlog.json");
+            LoadFromJson("WeatherLogFromAPI.json");
         }
 
         public void AddData(WeatherData weatherData)
