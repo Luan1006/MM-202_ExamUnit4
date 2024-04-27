@@ -5,10 +5,19 @@ namespace Luan1006.MM202.ExamUnit4
     public class WeatherLog
     {
         public List<WeatherData> Data { get; set; } = new List<WeatherData>();
+        bool IsUser;
 
-        public WeatherLog()
+        public WeatherLog(bool isUser)
         {
-            LoadFromJson("WeatherLogFromAPI.json");
+            IsUser = isUser;
+            if (IsUser)
+            {
+                LoadFromJson("WeatherLogFromUser.json");
+            }
+            else
+            {
+                LoadFromJson("WeatherLogFromAPI.json");
+            }
         }
 
         public void AddData(WeatherData weatherData)
