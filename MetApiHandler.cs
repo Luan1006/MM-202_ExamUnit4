@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using System.Globalization;
 
 namespace Luan1006.MM202.ExamUnit4
 {
@@ -15,10 +16,10 @@ namespace Luan1006.MM202.ExamUnit4
         public MetApiHandler()
         {
             client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd($"MM-202_ExamUnit4/{sitename}");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($"MM-202_ExamUnit4/1.0 ({sitename})");
         }
 
-        public async Task<JsonDocument> HandleRequest()
+        public async Task<JsonDocument> HandleRequest(double latitude, double longitude)
         {
             if (storedData != null && DateTimeOffset.UtcNow <= expires)
             {
@@ -27,7 +28,9 @@ namespace Luan1006.MM202.ExamUnit4
 
             client.DefaultRequestHeaders.IfModifiedSince = lastModified;
 
-            HttpResponseMessage response = await client.GetAsync(locationForecastUrl);
+            string requestUrl = $"{locationForecastUrl}?lat={latitude.ToString(CultureInfo.InvariantCulture)}&lon={longitude.ToString(CultureInfo.InvariantCulture)}";
+
+            HttpResponseMessage response = await client.GetAsync(requestUrl);
 
             if (response.StatusCode == HttpStatusCode.NotModified)
             {
