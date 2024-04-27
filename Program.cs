@@ -9,16 +9,35 @@ namespace Luan1006.MM202.ExamUnit4
             double latitude = 58.20; // grimstad latitude
             double longitude = 8.35; // grimstad longitude
 
-            double userAirTemperature;
-
             Console.WriteLine("Enter the air temperature: ");
-
+            double userAirTemperature;
             while (!double.TryParse(Console.ReadLine(), out userAirTemperature))
             {
                 Console.WriteLine("Invalid input, please try again.");
             }
 
-            WeatherData userWeatherData = new WeatherData(DateTime.Now, longitude, latitude, userAirTemperature, 0, 0, 0);
+            Console.WriteLine("Enter the relative humidity: ");
+            double userRelativeHumidity;
+            while (!double.TryParse(Console.ReadLine(), out userRelativeHumidity))
+            {
+                Console.WriteLine("Invalid input, please try again.");
+            }
+
+            Console.WriteLine("Enter the wind from direction: ");
+            double userWindFromDirection;
+            while (!double.TryParse(Console.ReadLine(), out userWindFromDirection))
+            {
+                Console.WriteLine("Invalid input, please try again.");
+            }
+
+            Console.WriteLine("Enter the wind speed: ");
+            double userWindSpeed;
+            while (!double.TryParse(Console.ReadLine(), out userWindSpeed))
+            {
+                Console.WriteLine("Invalid input, please try again.");
+            }
+
+            WeatherData userWeatherData = new WeatherData(DateTime.Now, longitude, latitude, userAirTemperature, userRelativeHumidity, userWindFromDirection, userWindSpeed);
             WeatherLog userWeatherLog = new WeatherLog(isUser: true);
             userWeatherLog.AddData(userWeatherData);
             userWeatherLog.SaveToJson("WeatherLogFromUser.json");
