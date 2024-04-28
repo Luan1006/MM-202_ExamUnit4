@@ -1,6 +1,6 @@
-namespace Luan1006.MM202.ExamUnit4.UI
+namespace Luan1006.MM202.ExamUnit4
 {
-    public class UserInterface
+    public class MainMenu
     {
         private enum MenuItems
         {

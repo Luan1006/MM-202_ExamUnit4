@@ -4,7 +4,7 @@
     {
         public static void Main()
         {
-            UserInterface userInterface = new UserInterface();
+            MainMenu userInterface = new MainMenu();
             userInterface.NavigateMenu();
         }
 
