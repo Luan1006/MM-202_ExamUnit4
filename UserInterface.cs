@@ -29,13 +29,15 @@ public class UserInterface
         {
             if (i == selectedMenuItem)
             {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("\u001b[1m"); // ANSI escape code for bold text
             }
-
+    
             Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuItems[i].Length / 2)) + "}", menuItems[i]));
-
-            Console.ResetColor();
+    
+            if (i == selectedMenuItem)
+            {
+                Console.Write("\u001b[0m"); // ANSI escape code to reset text formatting
+            }
         }
     }
 
@@ -76,7 +78,8 @@ public class UserInterface
             case (int)MenuItems.Report:
                 throw new NotImplementedException();
             case (int)MenuItems.Exit:
-                throw new NotImplementedException();
+                Environment.Exit(0);
+                break;
         }
     }
 }
