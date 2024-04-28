@@ -1,4 +1,4 @@
-namespace Luan1006.MM202.ExamUnit4
+namespace Luan1006.MM202.ExamUnit4.UI
 {
     public class UserInterface
     {
@@ -9,14 +9,8 @@ namespace Luan1006.MM202.ExamUnit4
             Exit
         }
 
-        private int selectedMenuItem;
-        private string[] menuItems;
-
-        public UserInterface()
-        {
-            selectedMenuItem = 0;
-            menuItems = ["Log today's weather", "Report", "Exit"];
-        }
+        private int selectedMenuItem = 0;
+        private string[] menuItems = ["Log today's weather", "Report", "Exit"];
 
         public void DisplayBanner()
         {
@@ -27,16 +21,16 @@ namespace Luan1006.MM202.ExamUnit4
 
         public void DisplayMenu()
         {
-            for (int i = 0; i < menuItems.Length; i++)
+            for (int index = 0; index < menuItems.Length; index++)
             {
-                if (i == selectedMenuItem)
+                if (index == selectedMenuItem)
                 {
                     Console.Write("\u001b[1m"); // ANSI escape code for bold text
                 }
 
-                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuItems[i].Length / 2)) + "}", menuItems[i]));
+                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuItems[index].Length / 2)) + "}", menuItems[index]));
 
-                if (i == selectedMenuItem)
+                if (index == selectedMenuItem)
                 {
                     Console.Write("\u001b[0m"); // ANSI escape code to reset text formatting
                 }

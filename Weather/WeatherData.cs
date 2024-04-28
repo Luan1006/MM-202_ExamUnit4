@@ -1,4 +1,4 @@
-namespace Luan1006.MM202.ExamUnit4
+namespace Luan1006.MM202.ExamUnit4.Weather
 {
     public class WeatherData
     {
