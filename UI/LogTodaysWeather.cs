@@ -11,7 +11,7 @@ namespace Luan1006.MM202.ExamUnit4
             MetApiHandler metApiHandler = new MetApiHandler(latitude, longitude);
 
             WeatherData weatherData = metApiHandler.GetWeatherData();
-            WeatherReport.PrintApiWeatherData(weatherData);
+            WeatherReport.DisplayApiWeatherData(weatherData);
             WeatherLog weatherLog = new WeatherLog(isUser: false);
             weatherLog.AddData(weatherData);
             weatherLog.SaveToJson("JsonFiles/WeatherLogFromAPI.json");
