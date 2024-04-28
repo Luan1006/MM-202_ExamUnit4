@@ -73,7 +73,9 @@ namespace Luan1006.MM202.ExamUnit4
                     LogTodaysWeather.Run();
                     break;
                 case (int)MenuOptions.Report:
-                    throw new NotImplementedException();
+                    Report report = new Report();
+                    report.NavigateMenu();
+                    break;
                 case (int)MenuOptions.Exit:
                     Environment.Exit(0);
                     break;
