@@ -24,6 +24,7 @@ namespace Luan1006.MM202.ExamUnit4
             Latitude = latitude;
             Longitude = longitude;
             HandleRequest().Wait();
+            client.Dispose();
         }
 
         public WeatherData GetWeatherData()
