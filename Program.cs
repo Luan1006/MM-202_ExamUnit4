@@ -8,7 +8,7 @@
             userInterface.NavigateMenu();
         }
 
-        private static void WIP()
+        private static void WIP() // Work in progress - not used in the program
         {
             double latitude = 58.20; // grimstad latitude
             double longitude = 8.35; // grimstad longitude
