@@ -70,7 +70,8 @@ namespace Luan1006.MM202.ExamUnit4
             switch (currentMenuOptionIndex)
             {
                 case (int)MenuOptions.LogTodaysWeather:
-                    throw new NotImplementedException();
+                    LogTodaysWeather.Run();
+                    break;
                 case (int)MenuOptions.Report:
                     throw new NotImplementedException();
                 case (int)MenuOptions.Exit:
