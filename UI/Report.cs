@@ -72,7 +72,17 @@ namespace Luan1006.MM202.ExamUnit4
             switch (currentMenuOptionIndex)
             {
                 case (int)MenuOptions.DailyReport:
-                    throw new NotImplementedException();
+                    Console.WriteLine("Enter the date for the daily report (yyyy-mm-dd):");
+                    DateTime dailyDate;
+                    if (DateTime.TryParse(Console.ReadLine(), out dailyDate))
+                    {
+                        WeatherReport.GenerateDailyReport(dailyDate);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date format. Please enter the date in the format yyyy-mm-dd.");
+                    }
+                    break;
 
                 case (int)MenuOptions.WeeklyReport:
                     throw new NotImplementedException();
