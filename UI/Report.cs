@@ -7,12 +7,11 @@ namespace Luan1006.MM202.ExamUnit4
             DailyReport,
             WeeklyReport,
             MonthlyReport,
-            CompareData,
             BackToMainMenu
         }
 
         private int currentMenuOptionIndex = 0;
-        private string[] menuOptionDescriptions = ["Daily report", "Weekly report", "Monthly report", "Compare data", "Back To Main Menu"];
+        private string[] menuOptionDescriptions = ["Daily report", "Weekly report", "Monthly report",  "Back To Main Menu"];
 
         public void DisplayBanner()
         {
@@ -69,11 +68,12 @@ namespace Luan1006.MM202.ExamUnit4
 
         private void HandleMenuSelection()
         {
+            DateTime dailyDate;
+
             switch (currentMenuOptionIndex)
             {
                 case (int)MenuOptions.DailyReport:
                     Console.WriteLine("Enter the date for the daily report (yyyy-mm-dd):");
-                    DateTime dailyDate;
                     if (DateTime.TryParse(Console.ReadLine(), out dailyDate))
                     {
                         WeatherReport.GenerateDailyReport(dailyDate);
@@ -85,16 +85,16 @@ namespace Luan1006.MM202.ExamUnit4
                     break;
 
                 case (int)MenuOptions.WeeklyReport:
-                    throw new NotImplementedException();
+                    WeatherReport.GenerateWeeklyReport();
+                    break;
 
                 case (int)MenuOptions.MonthlyReport:
                     throw new NotImplementedException();
 
-                case (int)MenuOptions.CompareData:
-                    throw new NotImplementedException();
-
                 case (int)MenuOptions.BackToMainMenu:
-                    throw new NotImplementedException();
+                    MainMenu userInterface = new MainMenu();
+                    userInterface.NavigateMenu();
+                    break;
 
             }
         }

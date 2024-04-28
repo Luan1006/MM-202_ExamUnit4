@@ -89,6 +89,8 @@ namespace Luan1006.MM202.ExamUnit4
         }
         public static void GenerateDailyReport(DateTime date)
         {
+            Console.Clear();
+
             UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
             YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
 
@@ -107,6 +109,37 @@ namespace Luan1006.MM202.ExamUnit4
             DisplayApiWeatherData(apiData);
 
             PrintWeatherDataDifference(dailyData, apiData);
+
+            Console.WriteLine("\nPress any key to go back");
+            Console.ReadKey();
+        }
+
+        public static void GenerateWeeklyReport()
+        {
+            Console.Clear();
+
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+
+            var dailyData = UserWeatherData.GroupBy(d => d.Date.Date).Select(g => g.First()).ToList();
+
+            Console.WriteLine("Weekly report:");
+            Console.WriteLine();
+
+            foreach (var daily in dailyData)
+            {
+                WeatherData apiData = YRWeatherData.FirstOrDefault(d => d.Date.Date == daily.Date.Date);
+
+                if (apiData == null)
+                {
+                    Console.WriteLine($"No data exists for the date {daily.Date:yyyy-MM-dd}.");
+                    continue;
+                }
+
+                DisplayUserInputWeatherData(daily);
+                DisplayApiWeatherData(apiData);
+                PrintWeatherDataDifference(daily, apiData);
+            }
 
             Console.WriteLine("\nPress any key to go back");
             Console.ReadKey();
