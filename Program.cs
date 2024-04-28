@@ -23,20 +23,9 @@ namespace Luan1006.MM202.ExamUnit4
             DateTime dateTime = data.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("time").GetDateTime();
 
             WeatherData weatherData = new WeatherData(dateTime, longitude, latitude, dataAirTemperature, dataRelativeHumidity, dataWindFromDirection, dataWindSpeed);
-
-            Console.WriteLine($"Date: {weatherData.Date.ToShortDateString()}");
-            Console.WriteLine($"Longitude: {weatherData.Longitude}");
-            Console.WriteLine($"Latitude: {weatherData.Latitude}");
-            Console.WriteLine($"Air Temperature: {weatherData.AirTemperature}");
-            Console.WriteLine($"Relative Humidity: {weatherData.RelativeHumidity}");
-            Console.WriteLine($"Wind From Direction: {weatherData.WindFromDirection}");
-            Console.WriteLine($"Wind Speed: {weatherData.WindSpeed}");
-
             WeatherLog weatherLog = new WeatherLog(isUser: false);
             weatherLog.AddData(weatherData);
             weatherLog.SaveToJson("WeatherLogFromAPI.json");
-
-
         }
     }
 }
