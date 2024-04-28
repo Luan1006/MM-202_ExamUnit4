@@ -1,11 +1,1 @@
-[
-    {
-        "Date": "2024-04-27T22:35:03.5244751+02:00",
-        "Longitude": 8.35,
-        "Latitude": 58.2,
-        "AirTemperature": 4,
-        "RelativeHumidity": 5,
-        "WindFromDirection": 5,
-        "WindSpeed": 1
-    }
-]
+[{"Date":"2024-04-27T22:35:03.5244751+02:00","Longitude":8.35,"Latitude":58.2,"AirTemperature":4,"RelativeHumidity":5,"WindFromDirection":5,"WindSpeed":1},{"Date":"2024-04-28T14:27:38.1649502+02:00","Longitude":8.35,"Latitude":58.2,"AirTemperature":3,"RelativeHumidity":5,"WindFromDirection":7,"WindSpeed":9}]
