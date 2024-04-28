@@ -2,15 +2,15 @@ namespace Luan1006.MM202.ExamUnit4
 {
     public class MainMenu
     {
-        private enum MenuItems
+        private enum MenuOptions
         {
             LogTodaysWeather,
             Report,
             Exit
         }
 
-        private int selectedMenuItem = 0;
-        private string[] menuItems = ["Log today's weather", "Report", "Exit"];
+        private int currentMenuOptionIndex = 0;
+        private string[] menuOptionDescriptions = ["Log today's weather", "Report", "Exit"];
 
         public void DisplayBanner()
         {
@@ -21,16 +21,16 @@ namespace Luan1006.MM202.ExamUnit4
 
         public void DisplayMenu()
         {
-            for (int index = 0; index < menuItems.Length; index++)
+            for (int index = 0; index < menuOptionDescriptions.Length; index++)
             {
-                if (index == selectedMenuItem)
+                if (index == currentMenuOptionIndex)
                 {
                     Console.Write("\u001b[1m"); // ANSI escape code for bold text
                 }
 
-                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuItems[index].Length / 2)) + "}", menuItems[index]));
+                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuOptionDescriptions[index].Length / 2)) + "}", menuOptionDescriptions[index]));
 
-                if (index == selectedMenuItem)
+                if (index == currentMenuOptionIndex)
                 {
                     Console.Write("\u001b[0m"); // ANSI escape code to reset text formatting
                 }
@@ -51,11 +51,11 @@ namespace Luan1006.MM202.ExamUnit4
 
                 if (keyInfo.Key == ConsoleKey.UpArrow)
                 {
-                    selectedMenuItem = (selectedMenuItem - 1 + menuItems.Length) % menuItems.Length;
+                    currentMenuOptionIndex = (currentMenuOptionIndex - 1 + menuOptionDescriptions.Length) % menuOptionDescriptions.Length;
                 }
                 else if (keyInfo.Key == ConsoleKey.DownArrow)
                 {
-                    selectedMenuItem = (selectedMenuItem + 1) % menuItems.Length;
+                    currentMenuOptionIndex = (currentMenuOptionIndex + 1) % menuOptionDescriptions.Length;
                 }
                 else if (keyInfo.Key == ConsoleKey.Enter)
                 {
@@ -67,13 +67,13 @@ namespace Luan1006.MM202.ExamUnit4
 
         private void HandleMenuSelection()
         {
-            switch (selectedMenuItem)
+            switch (currentMenuOptionIndex)
             {
-                case (int)MenuItems.LogTodaysWeather:
+                case (int)MenuOptions.LogTodaysWeather:
                     throw new NotImplementedException();
-                case (int)MenuItems.Report:
+                case (int)MenuOptions.Report:
                     throw new NotImplementedException();
-                case (int)MenuItems.Exit:
+                case (int)MenuOptions.Exit:
                     Environment.Exit(0);
                     break;
             }
