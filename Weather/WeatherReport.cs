@@ -30,15 +30,16 @@ namespace Luan1006.MM202.ExamUnit4
         {
             Console.WriteLine("Difference between user input and API data:");
             PrintTopBorder();
-            Console.WriteLine($"|{{0,-{dateWidth}}}|{{1,-{longitudeWidth}}}|{{2,-{latitudeWidth}}}|{{3,-{tempWidth}}}|{{4,-{humidityWidth}}}|{{5,-{windDirWidth}}}|{{6,-{windSpeedWidth}}}|",
-                "Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)");
+            PrintDataRow("Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)");
             PrintMiddleBorder();
-            Console.WriteLine($"|{{0,-{dateWidth}}}|{{1,-{longitudeWidth}}}|{{2,-{latitudeWidth}}}|{{3,-{tempWidth}}}|{{4,-{humidityWidth}}}|{{5,-{windDirWidth}}}|{{6,-{windSpeedWidth}}}|",
-                userInputWeatherData.Date.ToShortDateString(), userInputWeatherData.Longitude, userInputWeatherData.Latitude,
-                Math.Round(userInputWeatherData.AirTemperature - apiWeatherData.AirTemperature, 2),
-                Math.Round(userInputWeatherData.RelativeHumidity - apiWeatherData.RelativeHumidity, 2),
-                Math.Round(userInputWeatherData.WindFromDirection - apiWeatherData.WindFromDirection, 2),
-                Math.Round(userInputWeatherData.WindSpeed - apiWeatherData.WindSpeed, 2));
+            PrintDataRow(
+                userInputWeatherData.Date.ToShortDateString(),
+                userInputWeatherData.Longitude.ToString(),
+                userInputWeatherData.Latitude.ToString(),
+                Math.Round(userInputWeatherData.AirTemperature - apiWeatherData.AirTemperature, 2).ToString(),
+                Math.Round(userInputWeatherData.RelativeHumidity - apiWeatherData.RelativeHumidity, 2).ToString(),
+                Math.Round(userInputWeatherData.WindFromDirection - apiWeatherData.WindFromDirection, 2).ToString(),
+                Math.Round(userInputWeatherData.WindSpeed - apiWeatherData.WindSpeed, 2).ToString());
             PrintBottomBorder();
             Console.WriteLine();
         }
@@ -47,13 +48,24 @@ namespace Luan1006.MM202.ExamUnit4
         {
             Console.WriteLine(header);
             PrintTopBorder();
-            Console.WriteLine($"|{{0,-{dateWidth}}}|{{1,-{longitudeWidth}}}|{{2,-{latitudeWidth}}}|{{3,-{tempWidth}}}|{{4,-{humidityWidth}}}|{{5,-{windDirWidth}}}|{{6,-{windSpeedWidth}}}|",
-                "Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)");
+            PrintDataRow("Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)");
             PrintMiddleBorder();
-            Console.WriteLine($"|{{0,-{dateWidth}}}|{{1,-{longitudeWidth}}}|{{2,-{latitudeWidth}}}|{{3,-{tempWidth}}}|{{4,-{humidityWidth}}}|{{5,-{windDirWidth}}}|{{6,-{windSpeedWidth}}}|",
-                weatherData.Date.ToShortDateString(), weatherData.Longitude, weatherData.Latitude, weatherData.AirTemperature, weatherData.RelativeHumidity, weatherData.WindFromDirection, weatherData.WindSpeed);
+            PrintDataRow(
+                weatherData.Date.ToShortDateString(),
+                weatherData.Longitude.ToString(),
+                weatherData.Latitude.ToString(),
+                weatherData.AirTemperature.ToString(),
+                weatherData.RelativeHumidity.ToString(),
+                weatherData.WindFromDirection.ToString(),
+                weatherData.WindSpeed.ToString());
             PrintBottomBorder();
             Console.WriteLine();
+        }
+
+        private static void PrintDataRow(string date, string longitude, string latitude, string temp, string humidity, string windDir, string windSpeed)
+        {
+            Console.WriteLine($"|{{0,-{dateWidth}}}|{{1,-{longitudeWidth}}}|{{2,-{latitudeWidth}}}|{{3,-{tempWidth}}}|{{4,-{humidityWidth}}}|{{5,-{windDirWidth}}}|{{6,-{windSpeedWidth}}}|",
+                date, longitude, latitude, temp, humidity, windDir, windSpeed);
         }
 
         private static string GenerateBorderLine(char startChar, char midChar, char endChar, params int[] widths)
