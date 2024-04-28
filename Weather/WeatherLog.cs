@@ -12,11 +12,11 @@ namespace Luan1006.MM202.ExamUnit4
             IsUser = isUser;
             if (IsUser)
             {
-                LoadFromJson("WeatherLogFromUser.json");
+                LoadFromJson("JsonFiles/WeatherLogFromUser.json");
             }
             else
             {
-                LoadFromJson("WeatherLogFromAPI.json");
+                LoadFromJson("JsonFiles/WeatherLogFromAPI.json");
             }
         }
 
