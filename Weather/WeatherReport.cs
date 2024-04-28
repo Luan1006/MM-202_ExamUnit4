@@ -93,6 +93,7 @@ namespace Luan1006.MM202.ExamUnit4
             YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
 
             WeatherData dailyData = UserWeatherData.FirstOrDefault(d => d.Date.Date == date.Date);
+
             if (dailyData == null)
             {
                 Console.WriteLine($"No data exists for the date {date:yyyy-MM-dd}.");
