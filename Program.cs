@@ -1,10 +1,13 @@
-﻿using System.Text.Json;
-
-namespace Luan1006.MM202.ExamUnit4
+﻿namespace Luan1006.MM202.ExamUnit4
 {
     public class Program
     {
         public static void Main()
+        {
+            WIP();
+        }
+
+        private static void WIP()
         {
             double latitude = 58.20; // grimstad latitude
             double longitude = 8.35; // grimstad longitude
@@ -15,7 +18,7 @@ namespace Luan1006.MM202.ExamUnit4
             userWeatherLog.SaveToJson("WeatherLogFromUser.json");
 
             MetApiHandler metApiHandler = new MetApiHandler(latitude, longitude);
-            
+
             WeatherData weatherData = metApiHandler.GetWeatherData();
             WeatherLog weatherLog = new WeatherLog(isUser: false);
             weatherLog.AddData(weatherData);
