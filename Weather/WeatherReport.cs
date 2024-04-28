@@ -1,7 +1,18 @@
+using System.Text.Json;
+
 namespace Luan1006.MM202.ExamUnit4
 {
     public class WeatherReport
     {
+        private List<WeatherData> UserWeatherData { get; set; }
+        private List<WeatherData> YRWeatherData { get; set; }
+        
+        public WeatherReport()
+        {
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+        }
+
         public static void DisplayUserInputWeatherData(WeatherData userInputWeatherData)
         {
             PrintWeatherData("Weather data from user input:", userInputWeatherData);
@@ -35,5 +46,6 @@ namespace Luan1006.MM202.ExamUnit4
             Console.WriteLine($"Wind from direction: {weatherData.WindFromDirection}°");
             Console.WriteLine($"Wind speed: {weatherData.WindSpeed} m/s");
         }
+        
     }
 }
