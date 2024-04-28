@@ -1,1 +1,11 @@
-[{"Date":"2024-04-27T19:00:00Z","Longitude":8.35,"Latitude":58.2,"AirTemperature":7,"RelativeHumidity":78.9,"WindFromDirection":69.1,"WindSpeed":4.4}]
+[
+    {
+        "Date": "2024-04-27T19:00:00Z",
+        "Longitude": 8.35,
+        "Latitude": 58.2,
+        "AirTemperature": 7,
+        "RelativeHumidity": 78.9,
+        "WindFromDirection": 69.1,
+        "WindSpeed": 4.4
+    }
+]

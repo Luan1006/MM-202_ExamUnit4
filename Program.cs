@@ -9,35 +9,7 @@ namespace Luan1006.MM202.ExamUnit4
             double latitude = 58.20; // grimstad latitude
             double longitude = 8.35; // grimstad longitude
 
-            Console.WriteLine("Enter the air temperature: ");
-            double userAirTemperature;
-            while (!double.TryParse(Console.ReadLine(), out userAirTemperature))
-            {
-                Console.WriteLine("Invalid input, please try again.");
-            }
-
-            Console.WriteLine("Enter the relative humidity: ");
-            double userRelativeHumidity;
-            while (!double.TryParse(Console.ReadLine(), out userRelativeHumidity))
-            {
-                Console.WriteLine("Invalid input, please try again.");
-            }
-
-            Console.WriteLine("Enter the wind from direction: ");
-            double userWindFromDirection;
-            while (!double.TryParse(Console.ReadLine(), out userWindFromDirection))
-            {
-                Console.WriteLine("Invalid input, please try again.");
-            }
-
-            Console.WriteLine("Enter the wind speed: ");
-            double userWindSpeed;
-            while (!double.TryParse(Console.ReadLine(), out userWindSpeed))
-            {
-                Console.WriteLine("Invalid input, please try again.");
-            }
-
-            WeatherData userWeatherData = new WeatherData(DateTime.Now, longitude, latitude, userAirTemperature, userRelativeHumidity, userWindFromDirection, userWindSpeed);
+            WeatherData userWeatherData = UserInput.GetWeatherData(latitude, longitude);
             WeatherLog userWeatherLog = new WeatherLog(isUser: true);
             userWeatherLog.AddData(userWeatherData);
             userWeatherLog.SaveToJson("WeatherLogFromUser.json");
@@ -63,6 +35,8 @@ namespace Luan1006.MM202.ExamUnit4
             WeatherLog weatherLog = new WeatherLog(isUser: false);
             weatherLog.AddData(weatherData);
             weatherLog.SaveToJson("WeatherLogFromAPI.json");
+
+
         }
     }
 }
