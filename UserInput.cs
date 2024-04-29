@@ -2,52 +2,36 @@ namespace Luan1006.MM202.ExamUnit4
 {
     public class UserInput
     {
-        public static double GetAirTemperature()
+        private static double GetUserInput(string prompt)
         {
-            Console.WriteLine(Constants.airTemperaturePrompt);
-            double userAirTemperature;
-            while (!double.TryParse(Console.ReadLine(), out userAirTemperature))
+            Console.WriteLine(prompt);
+            double userInput;
+            while (!double.TryParse(Console.ReadLine(), out userInput))
             {
                 Console.WriteLine(Constants.invalidInput);
             }
 
-            return userAirTemperature;
+            return userInput;
+        }
+
+        public static double GetAirTemperature()
+        {
+            return GetUserInput(Constants.airTemperaturePrompt);
         }
 
         public static double GetRelativeHumidity()
         {
-            Console.WriteLine(Constants.relativeHumidityPrompt);
-            double userRelativeHumidity;
-            while (!double.TryParse(Console.ReadLine(), out userRelativeHumidity))
-            {
-                Console.WriteLine(Constants.invalidInput);
-            }
-
-            return userRelativeHumidity;
+            return GetUserInput(Constants.relativeHumidityPrompt);
         }
 
         public static double GetWindFromDirection()
         {
-            Console.WriteLine(Constants.windFromDirectionPrompt);
-            double userWindFromDirection;
-            while (!double.TryParse(Console.ReadLine(), out userWindFromDirection))
-            {
-                Console.WriteLine(Constants.invalidInput);
-            }
-
-            return userWindFromDirection;
+            return GetUserInput(Constants.windFromDirectionPrompt);
         }
 
         public static double GetWindSpeed()
         {
-            Console.WriteLine(Constants.windSpeedPrompt);
-            double userWindSpeed;
-            while (!double.TryParse(Console.ReadLine(), out userWindSpeed))
-            {
-                Console.WriteLine(Constants.invalidInput);
-            }
-
-            return userWindSpeed;
+            return GetUserInput(Constants.windSpeedPrompt);
         }
 
         public static WeatherData GetWeatherData(double latitude, double longitude)
