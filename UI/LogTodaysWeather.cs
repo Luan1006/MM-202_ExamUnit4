@@ -2,27 +2,45 @@ namespace Luan1006.MM202.ExamUnit4
 {
     public class LogTodaysWeather
     {
+        private static void FetchAndLogWeatherData(bool isUser, string logPath)
+        {
+            WeatherData weatherData;
+
+            if (isUser)
+            {
+                weatherData = UserInput.GetWeatherData(Constants.latitude, Constants.longitude);
+            }
+            else
+            {
+                MetApiHandler metApiHandler = new MetApiHandler(Constants.latitude, Constants.longitude);
+                weatherData = metApiHandler.GetWeatherData();
+            }
+
+            WeatherLog weatherLog = new WeatherLog(isUser);
+            weatherLog.AddData(weatherData);
+            weatherLog.SaveToJson(logPath);
+
+            if (isUser)
+            {
+                Console.WriteLine(Constants.WeatherDataLogged);
+                WeatherReport.PrintWeatherData(weatherData, Constants.user);
+            }
+            else
+            {
+                WeatherReport.PrintWeatherData(weatherData, Constants.api);
+            }
+        }
+
         public static void Run()
         {
             Console.Clear();
 
-            MetApiHandler metApiHandler = new MetApiHandler(Constants.latitude, Constants.longitude);
-
-            WeatherData weatherData = metApiHandler.GetWeatherData();
-            WeatherReport.PrintWeatherData(weatherData, Constants.api);
-            WeatherLog weatherLog = new WeatherLog(isUser: false);
-            weatherLog.AddData(weatherData);
-            weatherLog.SaveToJson(Constants.WeatherLogFromAPIPath);
+            FetchAndLogWeatherData(false, Constants.WeatherLogFromAPIPath);
 
             Console.Clear();
 
-            WeatherData userWeatherData = UserInput.GetWeatherData(Constants.latitude, Constants.longitude);
-            WeatherLog userWeatherLog = new WeatherLog(isUser: true);
-            userWeatherLog.AddData(userWeatherData);
-            userWeatherLog.SaveToJson(Constants.WeatherLogFromUserPath);
+            FetchAndLogWeatherData(true, Constants.WeatherLogFromUserPath);
 
-            Console.WriteLine(Constants.WeatherDataLogged);
-            WeatherReport.PrintWeatherData(userWeatherData, Constants.user);
             Console.WriteLine(Constants.PressAnyKey);
             Console.ReadKey();
 
