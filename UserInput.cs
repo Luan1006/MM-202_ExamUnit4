@@ -1,14 +1,16 @@
+using System.Reflection.Metadata;
+
 namespace Luan1006.MM202.ExamUnit4
 {
     public class UserInput
     {
         public static double GetAirTemperature()
         {
-            Console.WriteLine("Enter the air temperature: ");
+            Console.WriteLine(Constants.airTemperaturePrompt);
             double userAirTemperature;
             while (!double.TryParse(Console.ReadLine(), out userAirTemperature))
             {
-                Console.WriteLine("Invalid input, please try again.");
+                Console.WriteLine(Constants.invalidInput);
             }
 
             return userAirTemperature;
@@ -16,11 +18,11 @@ namespace Luan1006.MM202.ExamUnit4
 
         public static double GetRelativeHumidity()
         {
-            Console.WriteLine("Enter the relative humidity: ");
+            Console.WriteLine(Constants.relativeHumidityPrompt);
             double userRelativeHumidity;
             while (!double.TryParse(Console.ReadLine(), out userRelativeHumidity))
             {
-                Console.WriteLine("Invalid input, please try again.");
+                Console.WriteLine(Constants.invalidInput);
             }
 
             return userRelativeHumidity;
@@ -28,11 +30,11 @@ namespace Luan1006.MM202.ExamUnit4
 
         public static double GetWindFromDirection()
         {
-            Console.WriteLine("Enter the wind from direction: ");
+            Console.WriteLine(Constants.windFromDirectionPrompt);
             double userWindFromDirection;
             while (!double.TryParse(Console.ReadLine(), out userWindFromDirection))
             {
-                Console.WriteLine("Invalid input, please try again.");
+                Console.WriteLine(Constants.invalidInput);
             }
 
             return userWindFromDirection;
@@ -40,11 +42,11 @@ namespace Luan1006.MM202.ExamUnit4
 
         public static double GetWindSpeed()
         {
-            Console.WriteLine("Enter the wind speed: ");
+            Console.WriteLine(Constants.windSpeedPrompt);
             double userWindSpeed;
             while (!double.TryParse(Console.ReadLine(), out userWindSpeed))
             {
-                Console.WriteLine("Invalid input, please try again.");
+                Console.WriteLine(Constants.invalidInput);
             }
 
             return userWindSpeed;
