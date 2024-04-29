@@ -11,25 +11,23 @@ namespace Luan1006.MM202.ExamUnit4
         }
 
         private int currentMenuOptionIndex = 0;
-        private string[] menuOptionDescriptions = ["Daily report", "Weekly report", "Monthly report", "Back To Main Menu"];
 
         public void DisplayBanner()
         {
-            string banner = "Weather logger";
-            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (banner.Length / 2)) + "}", banner));
-            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + ("---------------".Length / 2)) + "}", "---------------"));
+            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (Constants.banner.Length / 2)) + "}", Constants.banner));
+            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (Constants.bannerLine.Length / 2)) + "}", Constants.bannerLine));
         }
 
         public void DisplayMenu()
         {
-            for (int index = 0; index < menuOptionDescriptions.Length; index++)
+            for (int index = 0; index < Constants.reportMenuOptionDescriptions.Length; index++)
             {
                 if (index == currentMenuOptionIndex)
                 {
                     Console.Write("\u001b[1m"); // ANSI escape code for bold text
                 }
 
-                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (menuOptionDescriptions[index].Length / 2)) + "}", menuOptionDescriptions[index]));
+                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (Constants.reportMenuOptionDescriptions[index].Length / 2)) + "}", Constants.reportMenuOptionDescriptions[index]));
 
                 if (index == currentMenuOptionIndex)
                 {
@@ -52,11 +50,11 @@ namespace Luan1006.MM202.ExamUnit4
 
                 if (keyInfo.Key == ConsoleKey.UpArrow)
                 {
-                    currentMenuOptionIndex = (currentMenuOptionIndex - 1 + menuOptionDescriptions.Length) % menuOptionDescriptions.Length;
+                    currentMenuOptionIndex = (currentMenuOptionIndex - 1 + Constants.reportMenuOptionDescriptions.Length) % Constants.reportMenuOptionDescriptions.Length;
                 }
                 else if (keyInfo.Key == ConsoleKey.DownArrow)
                 {
-                    currentMenuOptionIndex = (currentMenuOptionIndex + 1) % menuOptionDescriptions.Length;
+                    currentMenuOptionIndex = (currentMenuOptionIndex + 1) % Constants.reportMenuOptionDescriptions.Length;
                 }
                 else if (keyInfo.Key == ConsoleKey.Enter)
                 {
@@ -73,14 +71,14 @@ namespace Luan1006.MM202.ExamUnit4
             switch (currentMenuOptionIndex)
             {
                 case (int)MenuOptions.DailyReport:
-                    Console.WriteLine("Enter the date for the daily report (yyyy-mm-dd):");
+                    Console.WriteLine(Constants.enterDate);
                     if (DateTime.TryParse(Console.ReadLine(), out dailyDate))
                     {
                         WeatherReport.GenerateDailyReport(dailyDate);
                     }
                     else
                     {
-                        Console.WriteLine("Invalid date format. Please enter the date in the format yyyy-mm-dd.");
+                        Console.WriteLine(Constants.invalidDate);
                     }
                     break;
 
