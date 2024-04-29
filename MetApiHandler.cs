@@ -1,15 +1,14 @@
 using System.Net;
 using System.Text.Json;
 using System.Globalization;
-using System.Dynamic;
 
 namespace Luan1006.MM202.ExamUnit4
 {
     public class MetApiHandler
     {
         private WeatherData weatherData;
-        private string sitename = "https://github.com/Luan1006";
-        private string locationForecastUrl = "https://api.met.no/weatherapi/locationforecast/2.0/compact";
+        private string sitename = Constants.sitename;
+        private string locationForecastUrl = Constants.locationForecastUrl;
         private HttpClient client;
         private DateTimeOffset lastModified;
         private DateTimeOffset expires;
@@ -20,7 +19,7 @@ namespace Luan1006.MM202.ExamUnit4
         public MetApiHandler(double latitude, double longitude)
         {
             client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd($"MM-202_ExamUnit4/1.0 ({sitename})");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(string.Format(Constants.RequestHeader, sitename));
             Latitude = latitude;
             Longitude = longitude;
             HandleRequest().Wait();
@@ -55,7 +54,7 @@ namespace Luan1006.MM202.ExamUnit4
             {
                 lastModified = response.Content.Headers.LastModified ?? DateTimeOffset.UtcNow;
 
-                if (response.Headers.TryGetValues("Expires", out System.Collections.Generic.IEnumerable<string> values))
+                if (response.Headers.TryGetValues("Expires", out IEnumerable<string> values))
                 {
                     string expiresValue = values.FirstOrDefault();
                     DateTimeOffset.TryParse(expiresValue, out expires);
@@ -71,32 +70,32 @@ namespace Luan1006.MM202.ExamUnit4
                 return storedData;
             }
 
-            throw new Exception($"Request failed with status code {response.StatusCode}");
+            throw new Exception(string.Format(Constants.requestFailed, response.StatusCode));
         }
 
         private double GetAirTemperature()
         {
-            return storedData.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("data").GetProperty("instant").GetProperty("details").GetProperty("air_temperature").GetDouble();
+            return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.data).GetProperty(Constants.instant).GetProperty(Constants.details).GetProperty(Constants.air_temperature).GetDouble();
         }
 
         private double GetRelativeHumidity()
         {
-            return storedData.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("data").GetProperty("instant").GetProperty("details").GetProperty("relative_humidity").GetDouble();
+            return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.data).GetProperty(Constants.instant).GetProperty(Constants.details).GetProperty(Constants.relative_humidity).GetDouble();
         }
 
         private double GetWindFromDirection()
         {
-            return storedData.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("data").GetProperty("instant").GetProperty("details").GetProperty("wind_from_direction").GetDouble();
+            return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.data).GetProperty(Constants.instant).GetProperty(Constants.details).GetProperty(Constants.wind_from_direction).GetDouble();
         }
 
         private double GetWindSpeed()
         {
-            return storedData.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("data").GetProperty("instant").GetProperty("details").GetProperty("wind_speed").GetDouble();
+            return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.data).GetProperty(Constants.instant).GetProperty(Constants.details).GetProperty(Constants.wind_speed).GetDouble();
         }
 
         private DateTime GetDateTime()
         {
-            return storedData.RootElement.GetProperty("properties").GetProperty("timeseries")[0].GetProperty("time").GetDateTime();
+            return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.time).GetDateTime();
         }
 
 
