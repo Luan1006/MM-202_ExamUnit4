@@ -12,11 +12,11 @@ namespace Luan1006.MM202.ExamUnit4
             IsUser = isUser;
             if (IsUser)
             {
-                LoadFromJson("JsonFiles/WeatherLogFromUser.json");
+                LoadFromJson(Constants.WeatherLogFromUserPath);
             }
             else
             {
-                LoadFromJson("JsonFiles/WeatherLogFromAPI.json");
+                LoadFromJson(Constants.WeatherLogFromAPIPath);
             }
         }
 
@@ -41,16 +41,16 @@ namespace Luan1006.MM202.ExamUnit4
             }
             else
             {
-                Console.WriteLine("Data for this date already exists in the log, do you want to overwrite it? (y/n)");
+                Console.WriteLine(Constants.DataAlreadyExists);
                 string answer = Console.ReadKey().KeyChar.ToString().ToLower();
 
-                while (answer != "y" && answer != "n")
+                while (answer != Constants.y && answer != Constants.n)
                 {
-                    Console.WriteLine("Invalid input, please try again.");
+                    Console.WriteLine(Constants.invalidInput);
                     answer = Console.ReadKey().KeyChar.ToString().ToLower();
                 }
 
-                if (answer == "y")
+                if (answer == Constants.y)
                 {
                     Data.Remove(existingData);
                     Data.Add(weatherData);
