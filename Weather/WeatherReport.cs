@@ -116,6 +116,8 @@ namespace Luan1006.MM202.ExamUnit4
             if (dailyData == null)
             {
                 Console.WriteLine($"No data exists for the date {date:yyyy-MM-dd}.");
+                Console.WriteLine("\nPress any key to go back");
+                Console.ReadKey();
                 return;
             }
 
