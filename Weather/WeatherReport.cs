@@ -24,42 +24,30 @@ namespace Luan1006.MM202.ExamUnit4
                 weatherData.WindSpeed.ToString(),
                 type]);
             PrintBottomBorder();
-            Console.WriteLine();
+        }
+
+        private static string[] WeatherDataToStringArray(WeatherData weatherData)
+        {
+            return
+            [
+            weatherData.Date.ToShortDateString(),
+            weatherData.Longitude.ToString(),
+            weatherData.Latitude.ToString(),
+            weatherData.AirTemperature.ToString(),
+            weatherData.RelativeHumidity.ToString(),
+            weatherData.WindFromDirection.ToString(),
+            weatherData.WindSpeed.ToString()
+            ];
         }
 
         private static void PrintAllData(WeatherData userWeatherData, WeatherData apiWeatherData)
         {
-            PrintDataRow([
-                userWeatherData.Date.ToShortDateString(),
-                userWeatherData.Longitude.ToString(),
-                userWeatherData.Latitude.ToString(),
-                userWeatherData.AirTemperature.ToString(),
-                userWeatherData.RelativeHumidity.ToString(),
-                userWeatherData.WindFromDirection.ToString(),
-                userWeatherData.WindSpeed.ToString(),
-                user]);
+            PrintDataRow(WeatherDataToStringArray(userWeatherData).Concat([user]).ToArray());
             PrintMiddleBorder();
-            PrintDataRow([
-                apiWeatherData.Date.ToShortDateString(),
-                apiWeatherData.Longitude.ToString(),
-                apiWeatherData.Latitude.ToString(),
-                apiWeatherData.AirTemperature.ToString(),
-                apiWeatherData.RelativeHumidity.ToString(),
-                apiWeatherData.WindFromDirection.ToString(),
-                apiWeatherData.WindSpeed.ToString(),
-                api]);
+            PrintDataRow(WeatherDataToStringArray(apiWeatherData).Concat([api]).ToArray());
             PrintMiddleBorder();
-            PrintDataRow([
-                userWeatherData.Date.ToShortDateString(),
-                userWeatherData.Longitude.ToString(),
-                userWeatherData.Latitude.ToString(),
-                Math.Round(userWeatherData.AirTemperature - apiWeatherData.AirTemperature, 2).ToString(),
-                Math.Round(userWeatherData.RelativeHumidity - apiWeatherData.RelativeHumidity, 2).ToString(),
-                Math.Round(userWeatherData.WindFromDirection - apiWeatherData.WindFromDirection, 2).ToString(),
-                Math.Round(userWeatherData.WindSpeed - apiWeatherData.WindSpeed, 2).ToString(),
-                diff]);
+            PrintDataRow(WeatherDataToStringArray(userWeatherData).Concat([diff]).ToArray());
         }
-
 
         private static void PrintDataRow(string[] data)
         {
@@ -87,7 +75,7 @@ namespace Luan1006.MM202.ExamUnit4
             Console.WriteLine(GenerateBorderLine(SWChar, SChar, SEChar, dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
         }
 
-        public static void GenerateDailyReport(DateTime date)
+        private static void GenerateReport(DateTime date)
         {
             Console.Clear();
 
@@ -98,135 +86,38 @@ namespace Luan1006.MM202.ExamUnit4
             UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
             YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
 
-            WeatherData dailyData = UserWeatherData.FirstOrDefault(d => d.Date.Date == date.Date);
+            List<WeatherData> dailyData = UserWeatherData.Where(d => d.Date.Date >= date.Date).ToList();
 
-            if (dailyData == null)
+            foreach (WeatherData daily in dailyData)
             {
-                Console.WriteLine(string.Format(NoDataDate, date.ToShortDateString()));
-                Console.WriteLine(PressAnyKey);
-                Console.ReadKey();
-                return;
+                WeatherData apiData = YRWeatherData.FirstOrDefault(d => d.Date.Date == daily.Date.Date);
+                PrintAllData(daily, apiData);
+
+                if (daily != dailyData.Last())
+                {
+                    PrintMiddleBorder();
+                }
             }
-
-            WeatherData apiData = YRWeatherData.FirstOrDefault(d => d.Date.Date == date.Date);
-
-            PrintAllData(dailyData, apiData);
 
             PrintBottomBorder();
             Console.WriteLine();
 
             Console.WriteLine(PressAnyKey);
             Console.ReadKey();
+        }
+
+        public static void GenerateDailyReport(DateTime date)
+        {
+            GenerateReport(date);
         }
 
         public static void GenerateWeeklyReport()
         {
-            Console.Clear();
-
-            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
-            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
-
-            DateTime oneWeekAgo = DateTime.Now.AddDays(-7);
-
-            List<WeatherData> dailyData = new List<WeatherData>();
-            foreach (WeatherData data in UserWeatherData)
-            {
-                if (data.Date.Date >= oneWeekAgo.Date)
-                {
-                    if (!dailyData.Any(d => d.Date.Date == data.Date.Date))
-                    {
-                        dailyData.Add(data);
-                    }
-                }
-            }
-
-            Console.WriteLine(WeeklyReport);
-            Console.WriteLine();
-
-            PrintTopBorder();
-            PrintDataRow(header);
-            PrintMiddleBorder();
-
-            foreach (WeatherData daily in dailyData)
-            {
-                WeatherData apiData = null;
-                foreach (WeatherData data in YRWeatherData)
-                {
-                    if (data.Date.Date == daily.Date.Date)
-                    {
-                        apiData = data;
-                        break;
-                    }
-                }
-
-                PrintAllData(daily, apiData);
-
-                if (daily != dailyData.Last())
-                {
-                    PrintMiddleBorder();
-                }
-            }
-
-            PrintBottomBorder();
-            Console.WriteLine();
-
-            Console.WriteLine(PressAnyKey);
-            Console.ReadKey();
+            GenerateReport(DateTime.Now.AddDays(-7));
         }
 
-        public static void GenerateMonthlyReport()
-        {
-            Console.Clear();
-
-            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
-            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
-
-            DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
-
-            List<WeatherData> dailyData = new List<WeatherData>();
-            foreach (WeatherData data in UserWeatherData)
-            {
-                if (data.Date.Date >= oneMonthAgo.Date)
-                {
-                    if (!dailyData.Any(d => d.Date.Date == data.Date.Date))
-                    {
-                        dailyData.Add(data);
-                    }
-                }
-            }
-
-            Console.WriteLine(MonthlyReport);
-            Console.WriteLine();
-
-            PrintTopBorder();
-            PrintDataRow(header);
-            PrintMiddleBorder();
-
-            foreach (WeatherData daily in dailyData)
-            {
-                WeatherData apiData = null;
-                foreach (WeatherData data in YRWeatherData)
-                {
-                    if (data.Date.Date == daily.Date.Date)
-                    {
-                        apiData = data;
-                        break;
-                    }
-                }
-
-                PrintAllData(daily, apiData);
-
-                if (daily != dailyData.Last())
-                {
-                    PrintMiddleBorder();
-                }
-            }
-
-            PrintBottomBorder();
-            Console.WriteLine();
-
-            Console.WriteLine(PressAnyKey);
-            Console.ReadKey();
+        public static void GenerateMonthlyReport()        {
+            GenerateReport(DateTime.Now.AddMonths(-1));
         }
     }
 }

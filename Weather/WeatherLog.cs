@@ -24,7 +24,7 @@ namespace Luan1006.MM202.ExamUnit4
         {
             bool exists = false;
             WeatherData existingData = null;
-
+        
             foreach (var wd in Data)
             {
                 if (wd.Date.Date == weatherData.Date.Date)
@@ -34,28 +34,33 @@ namespace Luan1006.MM202.ExamUnit4
                     break;
                 }
             }
-
+        
             if (!exists)
             {
                 Data.Add(weatherData);
             }
             else
             {
-                Console.WriteLine(Constants.DataAlreadyExists);
-                string answer = Console.ReadKey().KeyChar.ToString().ToLower();
-
-                while (answer != Constants.y && answer != Constants.n)
-                {
-                    Console.WriteLine(Constants.invalidInput);
-                    answer = Console.ReadKey().KeyChar.ToString().ToLower();
-                }
-
-                if (answer == Constants.y)
+                if (UserConfirmsDataReplacement())
                 {
                     Data.Remove(existingData);
                     Data.Add(weatherData);
                 }
             }
+        }
+        
+        private bool UserConfirmsDataReplacement()
+        {
+            Console.WriteLine(Constants.DataAlreadyExists);
+            string answer = Console.ReadKey().KeyChar.ToString().ToLower();
+        
+            while (answer != Constants.y && answer != Constants.n)
+            {
+                Console.WriteLine(Constants.invalidInput);
+                answer = Console.ReadKey().KeyChar.ToString().ToLower();
+            }
+        
+            return answer == Constants.y;
         }
 
         public WeatherData GetData(DateTime date)

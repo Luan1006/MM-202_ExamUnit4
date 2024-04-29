@@ -57,8 +57,6 @@ namespace Luan1006.MM202.ExamUnit4
         public static readonly string WeatherLogFromUserPath = "JsonFiles/WeatherLogFromUser.json";
         public static readonly string NoDataDate = "No data for the date {0}.";
         public static readonly string PressAnyKey = "Press any key to go back";
-        public static readonly string WeeklyReport = "Weekly report (Showing last 7 days available):";
-        public static readonly string MonthlyReport = "Monthly report (Showing last 30 days available):";
         // WeatherLog
         public static readonly string DataAlreadyExists = "Data for this date already exists in the log, do you want to overwrite it? (y/n)";
         public static readonly string y = "y";
