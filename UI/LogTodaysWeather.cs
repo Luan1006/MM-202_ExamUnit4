@@ -11,7 +11,7 @@ namespace Luan1006.MM202.ExamUnit4
             MetApiHandler metApiHandler = new MetApiHandler(latitude, longitude);
 
             WeatherData weatherData = metApiHandler.GetWeatherData();
-            WeatherReport.DisplayApiWeatherData(weatherData);
+            WeatherReport.PrintWeatherData(weatherData, Constants.api);
             WeatherLog weatherLog = new WeatherLog(isUser: false);
             weatherLog.AddData(weatherData);
             weatherLog.SaveToJson("JsonFiles/WeatherLogFromAPI.json");
@@ -24,6 +24,7 @@ namespace Luan1006.MM202.ExamUnit4
             userWeatherLog.SaveToJson("JsonFiles/WeatherLogFromUser.json");
 
             Console.WriteLine("Weather data for today has been logged.");
+            WeatherReport.PrintWeatherData(userWeatherData, Constants.user);
             Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
 

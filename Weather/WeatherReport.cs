@@ -1,31 +1,18 @@
-using System.Runtime.InteropServices;
+using static Luan1006.MM202.ExamUnit4.Constants;
 using System.Text.Json;
 
 namespace Luan1006.MM202.ExamUnit4
 {
     public class WeatherReport
     {
-        const int dateWidth = 10;
-        const int longitudeWidth = 9;
-        const int latitudeWidth = 9;
-        const int temperatureWidth = 13;
-        const int humidityWidth = 17;
-        const int windDirWidth = 12;
-        const int windSpeedWidth = 16;
-        const int typeWidth = 5;
 
         private static List<WeatherData> UserWeatherData { get; set; }
         private static List<WeatherData> YRWeatherData { get; set; }
 
-        public static void DisplayApiWeatherData(WeatherData apiWeatherData)
-        {
-            PrintWeatherData("Weather data from API:", apiWeatherData);
-        }
-
-        private static void PrintWeatherData(string header, WeatherData weatherData)
+        public static void PrintWeatherData(WeatherData weatherData, string type)
         {
             PrintTopBorder();
-            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintDataRow(header);
             PrintMiddleBorder();
             PrintDataRow([
                 weatherData.Date.ToShortDateString(),
@@ -35,7 +22,7 @@ namespace Luan1006.MM202.ExamUnit4
                 weatherData.RelativeHumidity.ToString(),
                 weatherData.WindFromDirection.ToString(),
                 weatherData.WindSpeed.ToString(),
-                "User"]);
+                type]);
             PrintBottomBorder();
             Console.WriteLine();
         }
@@ -50,7 +37,7 @@ namespace Luan1006.MM202.ExamUnit4
                 userWeatherData.RelativeHumidity.ToString(),
                 userWeatherData.WindFromDirection.ToString(),
                 userWeatherData.WindSpeed.ToString(),
-                "User"]);
+                user]);
             PrintMiddleBorder();
             PrintDataRow([
                 apiWeatherData.Date.ToShortDateString(),
@@ -60,7 +47,7 @@ namespace Luan1006.MM202.ExamUnit4
                 apiWeatherData.RelativeHumidity.ToString(),
                 apiWeatherData.WindFromDirection.ToString(),
                 apiWeatherData.WindSpeed.ToString(),
-                "API"]);
+                api]);
             PrintMiddleBorder();
             PrintDataRow([
                 userWeatherData.Date.ToShortDateString(),
@@ -70,7 +57,7 @@ namespace Luan1006.MM202.ExamUnit4
                 Math.Round(userWeatherData.RelativeHumidity - apiWeatherData.RelativeHumidity, 2).ToString(),
                 Math.Round(userWeatherData.WindFromDirection - apiWeatherData.WindFromDirection, 2).ToString(),
                 Math.Round(userWeatherData.WindSpeed - apiWeatherData.WindSpeed, 2).ToString(),
-                "Diff"]);
+                diff]);
         }
 
 
@@ -88,16 +75,16 @@ namespace Luan1006.MM202.ExamUnit4
 
         private static void PrintTopBorder()
         {
-            Console.WriteLine(GenerateBorderLine('┌', '┬', '┐', dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
+            Console.WriteLine(GenerateBorderLine(NWChar, NChar, NEChar, dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
         }
         private static void PrintMiddleBorder()
         {
-            Console.WriteLine(GenerateBorderLine('├', '┼', '┤', dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
+            Console.WriteLine(GenerateBorderLine(WChar, MChar, EChar, dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
         }
 
         private static void PrintBottomBorder()
         {
-            Console.WriteLine(GenerateBorderLine('└', '┴', '┘', dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
+            Console.WriteLine(GenerateBorderLine(SWChar, SChar, SEChar, dateWidth, longitudeWidth, latitudeWidth, temperatureWidth, humidityWidth, windDirWidth, windSpeedWidth, typeWidth));
         }
 
         public static void GenerateDailyReport(DateTime date)
@@ -105,18 +92,18 @@ namespace Luan1006.MM202.ExamUnit4
             Console.Clear();
 
             PrintTopBorder();
-            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintDataRow(header);
             PrintMiddleBorder();
 
-            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
-            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
 
             WeatherData dailyData = UserWeatherData.FirstOrDefault(d => d.Date.Date == date.Date);
 
             if (dailyData == null)
             {
-                Console.WriteLine($"No data exists for the date {date:yyyy-MM-dd}.");
-                Console.WriteLine("\nPress any key to go back");
+                Console.WriteLine(string.Format(NoDataDate, date.ToShortDateString()));
+                Console.WriteLine(PressAnyKey);
                 Console.ReadKey();
                 return;
             }
@@ -128,7 +115,7 @@ namespace Luan1006.MM202.ExamUnit4
             PrintBottomBorder();
             Console.WriteLine();
 
-            Console.WriteLine("\nPress any key to go back");
+            Console.WriteLine(PressAnyKey);
             Console.ReadKey();
         }
 
@@ -136,8 +123,8 @@ namespace Luan1006.MM202.ExamUnit4
         {
             Console.Clear();
 
-            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
-            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
 
             DateTime oneWeekAgo = DateTime.Now.AddDays(-7);
 
@@ -153,11 +140,11 @@ namespace Luan1006.MM202.ExamUnit4
                 }
             }
 
-            Console.WriteLine("Weekly report (Showing last 7 days available):");
+            Console.WriteLine(WeeklyReport);
             Console.WriteLine();
 
             PrintTopBorder();
-            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintDataRow(header);
             PrintMiddleBorder();
 
             foreach (WeatherData daily in dailyData)
@@ -183,7 +170,7 @@ namespace Luan1006.MM202.ExamUnit4
             PrintBottomBorder();
             Console.WriteLine();
 
-            Console.WriteLine("\nPress any key to go back");
+            Console.WriteLine(PressAnyKey);
             Console.ReadKey();
         }
 
@@ -191,8 +178,8 @@ namespace Luan1006.MM202.ExamUnit4
         {
             Console.Clear();
 
-            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
-            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromUserPath));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText(WeatherLogFromAPIPath));
 
             DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
 
@@ -208,11 +195,11 @@ namespace Luan1006.MM202.ExamUnit4
                 }
             }
 
-            Console.WriteLine("Monthly report (Showing last 30 days available):");
+            Console.WriteLine(MonthlyReport);
             Console.WriteLine();
 
             PrintTopBorder();
-            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintDataRow(header);
             PrintMiddleBorder();
 
             foreach (WeatherData daily in dailyData)
@@ -238,7 +225,7 @@ namespace Luan1006.MM202.ExamUnit4
             PrintBottomBorder();
             Console.WriteLine();
 
-            Console.WriteLine("\nPress any key to go back");
+            Console.WriteLine(PressAnyKey);
             Console.ReadKey();
         }
     }
