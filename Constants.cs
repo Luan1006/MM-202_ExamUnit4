@@ -17,13 +17,14 @@ namespace Luan1006.MM202.ExamUnit4
         public static readonly string wind_speed = "wind_speed";
         public static readonly string time = "time";
         public static readonly string requestFailed = "Request failed with status code {0}";
-
+        public static readonly string expires = "Expires";
+        public static readonly string requestUrl = "{0}?lat={1}&lon={2}";
         // UserInput
         public static readonly string airTemperaturePrompt = "Enter the air temperature: ";
         public static readonly string relativeHumidityPrompt = "Enter the relative humidity: ";
         public static readonly string windFromDirectionPrompt = "Enter the wind from direction: ";
         public static readonly string windSpeedPrompt = "Enter the wind speed: ";
         public static readonly string invalidInput = "Invalid input, please try again.";
-        
+
     }
 }

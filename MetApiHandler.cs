@@ -41,7 +41,7 @@ namespace Luan1006.MM202.ExamUnit4
 
             client.DefaultRequestHeaders.IfModifiedSince = lastModified;
 
-            string requestUrl = $"{locationForecastUrl}?lat={Latitude.ToString(CultureInfo.InvariantCulture)}&lon={Longitude.ToString(CultureInfo.InvariantCulture)}";
+            string requestUrl = string.Format(Constants.requestUrl, locationForecastUrl, Latitude.ToString(CultureInfo.InvariantCulture), Longitude.ToString(CultureInfo.InvariantCulture));
 
             HttpResponseMessage response = await client.GetAsync(requestUrl);
 
@@ -54,7 +54,7 @@ namespace Luan1006.MM202.ExamUnit4
             {
                 lastModified = response.Content.Headers.LastModified ?? DateTimeOffset.UtcNow;
 
-                if (response.Headers.TryGetValues("Expires", out IEnumerable<string> values))
+                if (response.Headers.TryGetValues(Constants.expires, out IEnumerable<string> values))
                 {
                     string expiresValue = values.FirstOrDefault();
                     DateTimeOffset.TryParse(expiresValue, out expires);
@@ -97,7 +97,5 @@ namespace Luan1006.MM202.ExamUnit4
         {
             return storedData.RootElement.GetProperty(Constants.properties).GetProperty(Constants.timeseries)[0].GetProperty(Constants.time).GetDateTime();
         }
-
-
     }
 }
