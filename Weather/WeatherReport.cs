@@ -17,11 +17,6 @@ namespace Luan1006.MM202.ExamUnit4
         private static List<WeatherData> UserWeatherData { get; set; }
         private static List<WeatherData> YRWeatherData { get; set; }
 
-        public static void DisplayUserInputWeatherData(WeatherData userInputWeatherData)
-        {
-            PrintWeatherData("Weather data from user input:", userInputWeatherData);
-        }
-
         public static void DisplayApiWeatherData(WeatherData apiWeatherData)
         {
             PrintWeatherData("Weather data from API:", apiWeatherData);
@@ -47,9 +42,6 @@ namespace Luan1006.MM202.ExamUnit4
 
         private static void PrintAllData(WeatherData userWeatherData, WeatherData apiWeatherData)
         {
-            PrintTopBorder();
-            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
-            PrintMiddleBorder();
             PrintDataRow([
                 userWeatherData.Date.ToShortDateString(),
                 userWeatherData.Longitude.ToString(),
@@ -79,8 +71,6 @@ namespace Luan1006.MM202.ExamUnit4
                 Math.Round(userWeatherData.WindFromDirection - apiWeatherData.WindFromDirection, 2).ToString(),
                 Math.Round(userWeatherData.WindSpeed - apiWeatherData.WindSpeed, 2).ToString(),
                 "Diff"]);
-            PrintBottomBorder();
-            Console.WriteLine();
         }
 
 
@@ -114,6 +104,10 @@ namespace Luan1006.MM202.ExamUnit4
         {
             Console.Clear();
 
+            PrintTopBorder();
+            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintMiddleBorder();
+
             UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
             YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
 
@@ -129,35 +123,118 @@ namespace Luan1006.MM202.ExamUnit4
 
             PrintAllData(dailyData, apiData);
 
+            PrintBottomBorder();
+            Console.WriteLine();
+
             Console.WriteLine("\nPress any key to go back");
             Console.ReadKey();
         }
 
         public static void GenerateWeeklyReport()
         {
-            // TO-DO create a way to differentiate between dates, maybe have a header which is named "type"
             Console.Clear();
 
             UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
             YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
 
-            List<WeatherData> dailyData = UserWeatherData.GroupBy(d => d.Date.Date).Select(g => g.First()).ToList();
+            DateTime oneWeekAgo = DateTime.Now.AddDays(-7);
 
-            Console.WriteLine("Weekly report:");
+            List<WeatherData> dailyData = new List<WeatherData>();
+            foreach (WeatherData data in UserWeatherData)
+            {
+                if (data.Date.Date >= oneWeekAgo.Date)
+                {
+                    if (!dailyData.Any(d => d.Date.Date == data.Date.Date))
+                    {
+                        dailyData.Add(data);
+                    }
+                }
+            }
+
+            Console.WriteLine("Weekly report (Showing last 7 days available):");
             Console.WriteLine();
+
+            PrintTopBorder();
+            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintMiddleBorder();
 
             foreach (WeatherData daily in dailyData)
             {
-                WeatherData apiData = YRWeatherData.FirstOrDefault(d => d.Date.Date == daily.Date.Date);
-
-                if (apiData == null)
+                WeatherData apiData = null;
+                foreach (WeatherData data in YRWeatherData)
                 {
-                    Console.WriteLine($"No data exists for the date {daily.Date:yyyy-MM-dd}.");
-                    continue;
+                    if (data.Date.Date == daily.Date.Date)
+                    {
+                        apiData = data;
+                        break;
+                    }
                 }
 
                 PrintAllData(daily, apiData);
+
+                if (daily != dailyData.Last())
+                {
+                    PrintMiddleBorder();
+                }
             }
+
+            PrintBottomBorder();
+            Console.WriteLine();
+
+            Console.WriteLine("\nPress any key to go back");
+            Console.ReadKey();
+        }
+
+        public static void GenerateMonthlyReport()
+        {
+            Console.Clear();
+
+            UserWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromUser.json"));
+            YRWeatherData = JsonSerializer.Deserialize<List<WeatherData>>(File.ReadAllText("JsonFiles/WeatherLogFromAPI.json"));
+
+            DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
+
+            List<WeatherData> dailyData = new List<WeatherData>();
+            foreach (WeatherData data in UserWeatherData)
+            {
+                if (data.Date.Date >= oneMonthAgo.Date)
+                {
+                    if (!dailyData.Any(d => d.Date.Date == data.Date.Date))
+                    {
+                        dailyData.Add(data);
+                    }
+                }
+            }
+
+            Console.WriteLine("Monthly report (Showing last 30 days available):");
+            Console.WriteLine();
+
+            PrintTopBorder();
+            PrintDataRow(["Date", "Longitude", "Latitude", "Air Temp (°C)", "Rel. Humidity (%)", "Wind Dir (°)", "Wind Speed (m/s)", "Type"]);
+            PrintMiddleBorder();
+
+            foreach (WeatherData daily in dailyData)
+            {
+                WeatherData apiData = null;
+                foreach (WeatherData data in YRWeatherData)
+                {
+                    if (data.Date.Date == daily.Date.Date)
+                    {
+                        apiData = data;
+                        break;
+                    }
+                }
+
+                PrintAllData(daily, apiData);
+
+                if (daily != dailyData.Last())
+                {
+                    PrintMiddleBorder();
+                }
+            }
+
+            PrintBottomBorder();
+            Console.WriteLine();
 
             Console.WriteLine("\nPress any key to go back");
             Console.ReadKey();

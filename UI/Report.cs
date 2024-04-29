@@ -11,7 +11,7 @@ namespace Luan1006.MM202.ExamUnit4
         }
 
         private int currentMenuOptionIndex = 0;
-        private string[] menuOptionDescriptions = ["Daily report", "Weekly report", "Monthly report",  "Back To Main Menu"];
+        private string[] menuOptionDescriptions = ["Daily report", "Weekly report", "Monthly report", "Back To Main Menu"];
 
         public void DisplayBanner()
         {
@@ -89,7 +89,8 @@ namespace Luan1006.MM202.ExamUnit4
                     break;
 
                 case (int)MenuOptions.MonthlyReport:
-                    throw new NotImplementedException();
+                    WeatherReport.GenerateMonthlyReport();
+                    break;
 
                 case (int)MenuOptions.BackToMainMenu:
                     MainMenu userInterface = new MainMenu();
